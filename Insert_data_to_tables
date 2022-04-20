@@ -65,3 +65,30 @@ INSERT INTO `transaction_information` (`TransactionID`, `CustomerID`, `Trans_Ini
 (28, 'C16', '2016-11-13'),
 (29, 'C15', '2016-11-11'),
 (30, 'C18', '2016-11-16');
+
+
+
+//TRIGGER 
+create trigger trigger_stu_log
+    -> after insert on student
+    -> for each row
+    -> insert into student_log values (new.id , new.sname , new.sclass ,'inserted-row', now() 
+)  ;
+
+//VIEW 
+ CREATE VIEW customerDetailsView AS
+     SELECT  Name , password, log_stamp ,log_timestamp
+     FROM  customer_log
+     order by Name ;
+     
+//for view of the DBMS view
+select * from customerDetailsView ;
+ 
+ 
+ //ASSERTION 
+ create assertion money_constraint
+    check (not exists
+           (select Amount_Paid
+           from payment where Amount_Paid >= 0 )  ) ;
+ 
+
