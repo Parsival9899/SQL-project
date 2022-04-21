@@ -68,11 +68,24 @@ INSERT INTO `transaction_information` (`TransactionID`, `CustomerID`, `Trans_Ini
 
 
 
-//TRIGGER 
+//TRIGGER 1
+
+delimiter $$
+create trigger my_trigger after insert
+     on customer_information
+     for each row
+     begin
+     insert into customer_information_trigger values(new.CustomerID,new.Name,new.Address, 'row-inserted', now() ) ;
+     end $$
+Query OK, 0 rows affected (0.03 sec)
+delimiter ;
+
+
+//TRIGGER 2
 create trigger trigger_stu_log
-    -> after insert on student
-    -> for each row
-    -> insert into student_log values (new.id , new.sname , new.sclass ,'inserted-row', now() 
+     after insert on student
+     for each row
+     insert into student_log values (new.id , new.sname , new.sclass ,'inserted-row', now() 
 )  ;
 
 //VIEW 
