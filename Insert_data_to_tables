@@ -79,8 +79,7 @@ mysql> create trigger my_trigger after insert
     -> end $$
 Query OK, 0 rows affected (0.03 sec)
 mysql> delimiter ;
-
-//TRIGGER 2
+----------------------------------------------------------------------------------------------------------------------------
 mysql> delimiter ;
 create trigger trigger_stu_log
     -> after insert on student
@@ -98,12 +97,32 @@ create trigger trigger_stu_log
      
 //for view of the DBMS view
 select * from customerDetailsView ;
- 
+-------------------------------------------------
+CREATE VIEW Viewof_customer_information_trigger AS
+    select customerID , Name ,Address, log_action , log_timestamp 
+    from customer_information_trigger 
+    order by customerID ;
+    
+select * from Viewof_customer_information_trigger ;
+
+
+
+
  
  //ASSERTION 
  create assertion money_constraint
     check (not exists
            (select Amount_Paid
            from payment where Amount_Paid >= 0 )  ) ;
+  ---------------------------------------------------------------------
+  create assertion NO_CUSTOMER_MATCH
+    -> CHECK
+    -> (NOT EXISTS
+    -> (select * from supplier_information as S,customer_information C
+    -> where C.Name = S.SName
+    -> and C.Address =S.Address
+    -> and C.Phone = S.Phone )
+    -> )
+    -> ;
  
 
